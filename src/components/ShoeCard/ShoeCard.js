@@ -1,9 +1,9 @@
-import React from 'react';
-import styled from 'styled-components/macro';
+import React from "react";
+import styled from "styled-components/macro";
 
-import { COLORS, WEIGHTS } from '../../constants';
-import { formatPrice, pluralize, isNewShoe } from '../../utils';
-import Spacer from '../Spacer';
+import { COLORS, WEIGHTS } from "../../constants";
+import { formatPrice, pluralize, isNewShoe } from "../../utils";
+import Spacer from "../Spacer";
 
 const ShoeCard = ({
   slug,
@@ -36,14 +36,19 @@ const ShoeCard = ({
       <Wrapper>
         <ImageWrapper>
           <Image alt="" src={imageSrc} />
+          {variant === "on-sale" && <InfoBox variant={variant}>Sale</InfoBox>}
+          {variant === "new-release" && (
+            <InfoBox variant={variant}>Just Released!</InfoBox>
+          )}
         </ImageWrapper>
         <Spacer size={12} />
         <Row>
           <Name>{name}</Name>
-          <Price>{formatPrice(price)}</Price>
+          <Price variant={variant}>{formatPrice(price)}</Price>
         </Row>
         <Row>
-          <ColorInfo>{pluralize('Color', numOfColors)}</ColorInfo>
+          <ColorInfo>{pluralize("Color", numOfColors)}</ColorInfo>
+          {variant === "on-sale" && <SalePrice>{formatPrice(price)}</SalePrice>}
         </Row>
       </Wrapper>
     </Link>
@@ -53,6 +58,7 @@ const ShoeCard = ({
 const Link = styled.a`
   text-decoration: none;
   color: inherit;
+  flex: 1 1 250px;
 `;
 
 const Wrapper = styled.article``;
@@ -61,10 +67,14 @@ const ImageWrapper = styled.div`
   position: relative;
 `;
 
-const Image = styled.img``;
+const Image = styled.img`
+  width: 100%;
+`;
 
 const Row = styled.div`
   font-size: 1rem;
+  display: flex;
+  justify-content: space-between;
 `;
 
 const Name = styled.h3`
@@ -72,7 +82,10 @@ const Name = styled.h3`
   color: ${COLORS.gray[900]};
 `;
 
-const Price = styled.span``;
+const Price = styled.span`
+  text-decoration: ${(props) =>
+    props.variant === "on-sale" ? "line-through" : "inherit"};
+`;
 
 const ColorInfo = styled.p`
   color: ${COLORS.gray[700]};
@@ -81,6 +94,20 @@ const ColorInfo = styled.p`
 const SalePrice = styled.span`
   font-weight: ${WEIGHTS.medium};
   color: ${COLORS.primary};
+`;
+
+const InfoBox = styled.span`
+  position: absolute;
+  right: -4px;
+  top: 12px;
+  font-weight: ${WEIGHTS.medium};
+  background: ${(props) =>
+    props.variant === "on-sale" ? COLORS.primary : COLORS.secondary};
+  padding: 10px;
+  color: ${COLORS.white};
+  font-weight: ${WEIGHTS.bold};
+  font-size: 0.875rem;
+  border-radius: 2px;
 `;
 
 export default ShoeCard;
