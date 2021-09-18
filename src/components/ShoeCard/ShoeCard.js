@@ -69,6 +69,7 @@ const ImageWrapper = styled.div`
 
 const Image = styled.img`
   width: 100%;
+  border-radius: 16px 16px 4px 4px;
 `;
 
 const Row = styled.div`
@@ -85,6 +86,8 @@ const Name = styled.h3`
 const Price = styled.span`
   text-decoration: ${(props) =>
     props.variant === "on-sale" ? "line-through" : "inherit"};
+  color: ${(props) =>
+    props.variant === "on-sale" ? COLORS.gray[700] : "inherit"};
 `;
 
 const ColorInfo = styled.p`
@@ -106,7 +109,7 @@ const InfoBox = styled.span`
   padding: 10px;
   color: ${COLORS.white};
   font-weight: ${WEIGHTS.bold};
-  font-size: 0.875rem;
+  font-size: ${14 / 18}rem;
   border-radius: 2px;
 `;
 
